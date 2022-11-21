@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">mobile2022</string>
+    <string-array name="spn_estado">
+        <item>Sin Observaciones</item>
+        <item>Con Observaciones</item>
+    </string-array>
+</resources>

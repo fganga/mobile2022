@@ -1,8 +1,6 @@
 package cl.inacaptemuco.mobile2022;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,6 +9,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,7 +30,7 @@ import modelo.Entrada;
 public class MainActivity extends AppCompatActivity  implements View.OnClickListener{
     TextView txtUser;
     EditText edtPatente,edtFecha,edtComentario;
-    Button btnEnviar;
+    Button btnEnviar,btnListar;
     Spinner spnEstado;
     private String patente,estado,comentario;
     private Date fecha;
@@ -53,11 +54,15 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     }
 
     private void habilitarListener() {
+        //Habilitamos listener para ambos botones
         btnEnviar.setOnClickListener(this);
+        btnListar.setOnClickListener(this);
+
 
     }
 
     private void mostrarUsuario() {
+        //Desplegamos valors en la intergaz, en este caso el email del usuario que inicia sesión.
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         txtUser.setText("Bienvenido " + user.getEmail());
     }
@@ -68,36 +73,41 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     edtPatente = (EditText) findViewById(R.id.edt_patente);
     edtComentario = (EditText) findViewById(R.id.edt_comentario);
     btnEnviar = (Button) findViewById(R.id.btn_enviar);
+    btnListar = (Button) findViewById(R.id.btn_listar);
 
+    //Connfiguración de Spinner según documentación
     spnEstado = (Spinner) findViewById(R.id.spn_estado);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.spn_estado, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
         spnEstado.setAdapter(adapter);
     }
 
     @Override
     public void onClick(View view) {
-        //Obtenemos datos
-        String fechaIngreso = edtFecha.getText().toString();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date date = format.parse(fechaIngreso);
-            fecha = date;
-            System.out.println(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (view.getId() == R.id.btn_enviar) {
+            //Obtenemos datos
+            String fechaIngreso = edtFecha.getText().toString();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date date = format.parse(fechaIngreso);
+                fecha = date;
+                System.out.println(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            patente = edtPatente.getText().toString();
+            comentario = edtComentario.getText().toString();
+            estado = spnEstado.getSelectedItem().toString();
+
+            //Invocamos método que agrega a firestore
+            agregarFirestore(fecha, patente, estado, comentario);
         }
-
-        patente = edtPatente.getText().toString();
-        comentario = edtComentario.getText().toString();
-        estado = spnEstado.getSelectedItem().toString();
-
-        agregarFirestore(fecha,patente,estado,comentario);
-
+        if (view.getId() == R.id.btn_listar){
+            Intent intento = new Intent(MainActivity.this,ListaActivity.class);
+            startActivity(intento);
+        }
 
     }
 
@@ -110,12 +120,14 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         coleccionEntradas.add(entrada).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
+                //En caso de éxito mostramos mensaje mediante Toast
                 Toast.makeText(MainActivity.this,"Entrada registrada correctamente",Toast.LENGTH_SHORT).show();
 
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                //En caso de error, mensaje similar al anterior.
                 Toast.makeText(MainActivity.this,"Error al agregar",Toast.LENGTH_SHORT).show();
             }
         });

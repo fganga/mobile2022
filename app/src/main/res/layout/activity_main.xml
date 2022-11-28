@@ -47,5 +47,11 @@
         android:layout_height="wrap_content"
         android:text="Enviar"
         ></Button>
+    <Button
+        android:id="@+id/btn_listar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Listar"
+        ></Button>
 
 </LinearLayout>

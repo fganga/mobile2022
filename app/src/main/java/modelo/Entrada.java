@@ -11,6 +11,9 @@ public class Entrada {
         this.estado = estado;
         this.fecha = fecha;
     }
+    public Entrada(){
+
+    }
     public String getPatente() {
         return patente;
     }

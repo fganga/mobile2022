@@ -36,10 +36,10 @@ public class ActualizarActivity extends AppCompatActivity implements View.OnClic
 
     private String idUpdate;
 
-    // creating a strings for storing our values from Edittext fields.
+
     private String patente, comentario,estado;
 
-    // creating a variable for firebasefirestore.
+
     private FirebaseFirestore db;
 
     Entrada entrada;
@@ -129,44 +129,32 @@ public class ActualizarActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void updateCourses(Entrada entrada,String patente, Date fecha, String estado, String comentario) {
-        // inside this method we are passing our updated values
-        // inside our object class and later on we
-        // will pass our whole object to firebase Firestore.
+
         Entrada entradaActualizada = new Entrada(patente,comentario,estado,fecha);
-        //entradaActualizada.setId(idUpdate);
+
         HashMap<String, Object> updateEntrada = new HashMap<>();
         updateEntrada.put("fecha", entradaActualizada.getFecha());
         updateEntrada.put("estado", entradaActualizada.getEstado());
         updateEntrada.put("patente", entradaActualizada.getPatente());
         updateEntrada.put("comentario", entradaActualizada.getComentario());
 
-        // after passing data to object class we are
-        // sending it to firebase with specific document id.
-        // below line is use to get the collection of our Firebase Firestore.
         db.collection("Entrada").
-                // below line is use toset the id of
-                // document where we have to perform
-                // update operation.
+
 
                         document(idUpdate).
 
-                // after setting our document id we are
-                // passing our whole object class to it.
 
                         update(updateEntrada).
 
-                // after passing our object class we are
-                // calling a method for on success listener.
+
                         addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        // on successful completion of this process
-                        // we are displaying the toast message.
+
                         Toast.makeText(ActualizarActivity.this, "Entrada Actulizada", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
-            // inside on failure method we are
-            // displaying a failure message.
+
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(ActualizarActivity.this, "Error al obtener datos", Toast.LENGTH_SHORT).show();
@@ -174,32 +162,24 @@ public class ActualizarActivity extends AppCompatActivity implements View.OnClic
         });
     }
     private void eliminarEntrada(String idUpdate) {
-        // below line is for getting the collection
-        // where we are storing our courses.
+
         db.collection("Entrada").
-                // after that we are getting the document
-                // which we have to delete.
+
                         document(idUpdate).
 
-                // after passing the document id we are calling
-                // delete method to delete this document.
                         delete().
-                // after deleting call on complete listener
-                // method to delete this data.
+
                         addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        // inside on complete method we are checking
-                        // if the task is success or not.
+
                         if (task.isSuccessful()) {
-                            // this method is called when the task is success
-                            // after deleting we are starting our MainActivity.
+
                             Toast.makeText(ActualizarActivity.this, "Entrada eliminada.", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(ActualizarActivity.this, MainActivity.class);
                             startActivity(i);
                         } else {
-                            // if the delete operation is failed
-                            // we are displaying a toast message.
+
                             Toast.makeText(ActualizarActivity.this, "Error al eliminar. ", Toast.LENGTH_SHORT).show();
                         }
                     }

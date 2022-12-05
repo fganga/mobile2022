@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ActualizarActivity">
+
+    <EditText
+        android:id="@+id/edt_fecha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha"
+        android:inputType="date"
+        ></EditText>
+    <EditText
+        android:id="@+id/edt_patente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Patente"
+        ></EditText>
+    <Spinner
+        android:id="@+id/spn_estado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Spinner>
+    <EditText
+        android:id="@+id/edt_comentario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="comentario"
+        android:lines="3"
+        ></EditText>
+    <Button
+        android:id="@+id/btn_actualizar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Actualizar"
+        ></Button>
+    <Button
+        android:id="@+id/btn_eliminar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Eliminar"
+        ></Button>
+
+</LinearLayout>

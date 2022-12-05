@@ -1,8 +1,29 @@
 package modelo;
 
+import com.google.firebase.firestore.Exclude;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class Entrada {
+public class Entrada implements Serializable {
+
+
+    public String getId() {
+        return id;
+    }
+
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    // we are using exclude because
+    // we are not saving our id
+    @Exclude
+    private String id;
+
+
+
     private String patente,comentario,estado;
     private Date fecha;
     public Entrada(String patente, String comentario, String estado, Date fecha) {

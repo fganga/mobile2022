@@ -1,6 +1,7 @@
 package cl.inacaptemuco.mobile2022;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,31 @@ public class EntradaAdapter extends RecyclerView.Adapter<EntradaAdapter.ViewHold
             txv_fecha = itemView.findViewById(R.id.txv_fecha);
             txv_estado = itemView.findViewById(R.id.txv_comentario);
             txv_comentario = itemView.findViewById(R.id.txv_comentario);
+
+
+            //Listener para actualizar
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    // after clicking of the item of recycler view.
+                    // we are passing our course object to the new activity.
+                    Entrada entrada = entradaArrayList.get(getAdapterPosition());
+
+                    // below line is creating a new intent.
+                    Intent i = new Intent(context, ActualizarActivity.class);
+
+                    // below line is for putting our course object to our next activity.
+                    i.putExtra("entrada", entrada);
+
+                    // after passing the data we are starting our activity.
+                    context.startActivity(i);
+                }
+            });
+
         }
+
+
     }
 }

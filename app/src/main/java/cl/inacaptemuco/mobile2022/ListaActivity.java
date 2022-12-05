@@ -61,6 +61,9 @@ public class ListaActivity extends AppCompatActivity {
                                 //Se obtienen los datos y se instancia por cada documento un objeto de la clase Entrada
                                 Entrada entrada = d.toObject(Entrada.class);
 
+                                //Id para actualizaciòn
+                                entrada.setId(d.getId());
+
                                 //El objeto se agrega a la lista de objetos de la clase Entrada
                                 entradaArrayList.add(entrada);
 
